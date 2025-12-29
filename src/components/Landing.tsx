@@ -14,16 +14,8 @@ import {
 
 
 function Landing() {
-  
-
-
-
   const containerRef = useRef<HTMLDivElement | null>(null);
   useEffect(() => {
-
-    
-  
-
     gsap.registerPlugin(ScrollTrigger); 
     const timeline = gsap.timeline({
       scrollTrigger: {

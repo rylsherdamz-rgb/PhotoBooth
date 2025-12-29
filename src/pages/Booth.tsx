@@ -4,7 +4,7 @@ import { WebcamCapture } from '../components/WebcamCapture';
 
 const Booth = () => {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen ">
       <Navigation />
       <WebcamCapture />
     </div>
