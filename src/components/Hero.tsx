@@ -1,74 +1,165 @@
 import { Link } from "react-router-dom";
-import { motion } from "framer-motion";
+import { useEffect, useRef } from "react";
 import { FaCamera } from "react-icons/fa";
+import gsap from "gsap";
 
 function Hero() {
+  const heroRef = useRef<HTMLDivElement>(null);
+  const previewRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      // Text entrance
+      gsap.from(".hero-item", {
+        opacity: 0,
+        y: 30,
+        duration: 0.9,
+        ease: "power3.out",
+        stagger: 0.15,
+      });
+
+      // Preview entrance
+      gsap.from(previewRef.current, {
+        opacity: 0,
+        x: 40,
+        duration: 1,
+        ease: "power3.out",
+        delay: 0.3,
+      });
+
+      // Floating animation
+      gsap.to(previewRef.current, {
+        y: -12,
+        duration: 2.5,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+      });
+
+      // Camera flash effect
+      gsap.fromTo(
+        previewRef.current,
+        { filter: "brightness(1)" },
+        {
+          filter: "brightness(1.15)",
+          duration: 0.15,
+          repeat: -1,
+          repeatDelay: 4,
+          yoyo: true,
+        }
+      );
+    }, heroRef);
+
+    return () => ctx.revert();
+  }, []);
+
   return (
-    <motion.div 
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.8 }}
-      className="relative w-full px-5 max-w-7xl mx-auto"
+    <section
+      ref={heroRef}
+      className="relative w-full max-w-7xl mx-auto px-6 py-24 overflow-hidden"
     >
-      <div className="grid md:grid-cols-2 gap-12 items-center">
-        {/* Left content */}
-        <motion.div 
-          initial={{ opacity: 0, x: -20 }}
-          animate={{ opacity: 1, x: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
-          className="text-left space-y-8"
-        >
-          <div className="space-y-4">
-            <h1 className="text-4xl md:text-2xl lg:text-6xl font-bold text-slate-900 leading-tight">
-            SnapCharm{" "}
-              <span className="text-pink-500 text-shadow-pink-200 ">Online PhotoBooth</span>
+      <div className="grid md:grid-cols-2 gap-16 items-center">
+        {/* LEFT CONTENT */}
+        <div className="space-y-10">
+          <div className="space-y-5">
+            <h1 className="hero-item text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight">
+              SnapCharm <br />
+              <span className="text-pink-500 drop-shadow-sm">
+                Online PhotoBooth
+              </span>
             </h1>
-            <p className="text-lg md:text-xl text-slate-600 leading-relaxed max-w-xl">
-              Professional photo booth experience with AI-powered filters, 
-              stunning layouts, and instant digital delivery.
+
+            <p className="hero-item text-lg md:text-xl text-slate-600 max-w-xl">
+              Capture cute, aesthetic moments right from your browser.
+              Apply filters, frames, and download instantly — no app needed ✨
             </p>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-4 mx-w-1/2 lg:flex-1/2">
+          {/* CTA */}
+          <div className="hero-item flex gap-4">
             <Link
               to="/booth"
-              className="inline-flex items-center justify-center px-8 py-4 rounded-lg bg-pink-400 text-white text-lg font-medium shadow-sm hover:bg-pink-300 transition-colors duration-200"
+              className="
+                inline-flex items-center justify-center
+                px-9 py-4 rounded-xl
+                bg-pink-500 text-white text-lg font-semibold
+                shadow-lg shadow-pink-300/40
+                hover:bg-pink-400 hover:scale-[1.03]
+                transition-all duration-200
+              "
             >
               <FaCamera className="mr-2" />
-              Start Session
+              Start Photo Session
             </Link>
-
           </div>
 
-          {/* Features */}
-          <div className="grid grid-cols-2 gap-6 pt-8">
-          {[
-            { title: "Cute Filters", desc: "Fun, soft, and aesthetic effects" },
-            { title: "Easy Sharing", desc: "Save or share in just one tap" },
-            { title: "Clean Layouts", desc: "Simple, stylish photo frames" },
-            { title: "Clear Quality", desc: "Crisp, bright, camera-perfect shots" }
-          ].map((feature, index) => (
-            <div key={index} className="space-y-1">
-              <h3 className="font-semibold text-slate-900">{feature.title}</h3>
-              <p className="text-sm text-slate-600">{feature.desc}</p>
-            </div>
-          ))}
+          {/* FEATURES */}
+          <div className="grid grid-cols-2 gap-6 pt-6">
+            {[
+              { title: "Cute Filters", desc: "Soft & aesthetic styles" },
+              { title: "Instant Download", desc: "Save photos in seconds" },
+              { title: "Clean Layouts", desc: "Minimal photo frames" },
+              { title: "HD Quality", desc: "Bright & clear shots" },
+            ].map((item, i) => (
+              <div key={i} className="hero-item">
+                <h3 className="font-semibold text-slate-900">
+                  {item.title}
+                </h3>
+                <p className="text-sm text-slate-600">
+                  {item.desc}
+                </p>
+              </div>
+            ))}
+          </div>
         </div>
-       </motion.div>
 
-        {/* Right content - Preview Image */}
-       {/* Right content - Preview Image */}
-  <motion.div
-    initial={{ opacity: 0, x: 20 }}
-    animate={{ opacity: 1, x: 0 }}
-    transition={{ duration: 0.8, delay: 0.4 }}
-    className="relative"
-  >
-    
-  </motion.div>
-  
+        {/* RIGHT PHOTO PREVIEW */}
+        <div ref={previewRef} className="relative flex justify-center">
+          {/* MAIN PHOTO */}
+          <div
+            className="
+              relative w-[280px] sm:w-[320px] aspect-[3/4]
+              rounded-3xl bg-white
+              shadow-2xl shadow-pink-300/40
+              overflow-hidden
+            "
+          >
+            <img
+              src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?q=80&w=800&auto=format&fit=crop"
+              alt="Photobooth preview"
+              className="w-full h-full object-cover"
+            />
+
+            {/* Camera overlay */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-white/10" />
+
+            {/* Caption */}
+            <div className="absolute bottom-0 w-full bg-white/90 backdrop-blur-md py-3 text-center">
+              <p className="text-sm font-medium text-slate-700">
+                SnapCharm ✨
+              </p>
+            </div>
+          </div>
+
+          {/* PHOTO STRIP (EXTRA REALISM) */}
+          <div className="absolute -right-10 top-12 rotate-6 scale-90 hidden md:block">
+            <div className="w-[120px] bg-white rounded-xl shadow-lg overflow-hidden">
+              <img
+                src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e"
+                className="w-full h-28 object-cover"
+              />
+              <img
+                src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1"
+                className="w-full h-28 object-cover"
+              />
+            </div>
+          </div>
+
+          {/* GLOW */}
+          <div className="absolute -z-10 w-[300px] h-[420px] bg-pink-300/40 blur-3xl rounded-full" />
+        </div>
       </div>
-    </motion.div>
+    </section>
   );
 }
 
