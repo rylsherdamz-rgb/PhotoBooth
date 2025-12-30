@@ -2,6 +2,7 @@ import  { useState, useEffect } from 'react';
 
 import HomeCanvas from '../components/HomeCanvas';
 import SnapCharmText from '../components/SnapCharmText';
+import Footer from '../components/Footer';
 
 
 
@@ -31,7 +32,7 @@ export default function Home() {
             
    
         
-        
+      <Footer />        
     </div>
   );
 }

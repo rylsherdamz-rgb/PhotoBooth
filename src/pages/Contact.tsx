@@ -1,72 +1,121 @@
+import { useState } from "react";
+import Footer from "../components/Footer";
+import Navigation from "../components/Navigation";
+import { FaPaperPlane, FaInstagram, FaFacebook, FaTwitter } from "react-icons/fa";
 
-import { Link } from "react-router-dom";
-function Contact() {
+export default function Contact() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    // TODO: Replace with your API or email service
+    alert("Message sent! Thank you for contacting SnapCharm.");
+    setFormData({ name: "", email: "", message: "" });
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-yellow-200 via-pink-200 to-purple-200 p-8">
-      <div className="max-w-3xl mx-auto text-center">
-        <h2 className="text-4xl font-extrabold text-purple-700 mb-4 drop-shadow-md">
+    <div>
+      <Navigation />
+    <main className="max-w-4xl mx-auto px-6 pt-32 pb-40">
+      {/* Header */}
+      <div className="text-center mb-16 space-y-4">
+        <h1 className="text-4xl md:text-5xl font-bold text-slate-900">
           Contact Us
-        </h2>
-        <p className="text-lg text-purple-800 mb-8">
-          We'd love to hear from you! Whether you have feedback, feature requests,
-          or just want to say hello, reach out to the MyPhotoBooth team below.
+        </h1>
+        <p className="text-slate-600 text-lg md:text-xl">
+          We'd love to hear from you! Whether it’s feedback, questions, or
+          support, reach out and we’ll get back to you as soon as possible.
         </p>
+      </div>
 
-        <form className="bg-white bg-opacity-80 rounded-2xl p-6 shadow-lg max-w-md mx-auto space-y-4">
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Name
-            </label>
+      {/* Form + Info */}
+      <div className="grid md:grid-cols-2 gap-16">
+        {/* Contact Form */}
+        <form
+          onSubmit={handleSubmit}
+          className="space-y-6 bg-white rounded-3xl p-8 shadow-[0_12px_30px_-12px_rgba(0,0,0,0.18)]"
+        >
+          <div className="space-y-4">
+            <label className="block text-sm font-semibold text-slate-700">Name</label>
             <input
               type="text"
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
+              className="w-full border border-slate-300 rounded-lg p-3 text-slate-700 focus:ring-pink-400 focus:border-pink-400 outline-none"
               placeholder="Your Name"
-              className="w-full px-4 py-2 rounded-lg border focus:ring-pink-500 focus:border-pink-500 outline-none"
             />
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Email
-            </label>
+
+          <div className="space-y-4">
+            <label className="block text-sm font-semibold text-slate-700">Email</label>
             <input
               type="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
+              required
+              className="w-full border border-slate-300 rounded-lg p-3 text-slate-700 focus:ring-pink-400 focus:border-pink-400 outline-none"
               placeholder="you@example.com"
-              className="w-full px-4 py-2 rounded-lg border focus:ring-pink-500 focus:border-pink-500 outline-none"
             />
           </div>
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">
-              Message
-            </label>
+
+          <div className="space-y-4">
+            <label className="block text-sm font-semibold text-slate-700">Message</label>
             <textarea
-              rows={4}
-              placeholder="Your message..."
-              className="w-full px-4 py-2 rounded-lg border focus:ring-pink-500 focus:border-pink-500 outline-none"
+              name="message"
+              value={formData.message}
+              onChange={handleChange}
+              required
+              rows={6}
+              className="w-full border border-slate-300 rounded-lg p-3 text-slate-700 focus:ring-pink-400 focus:border-pink-400 outline-none"
+              placeholder="Write your message..."
             />
           </div>
+
           <button
             type="submit"
-            className="w-full py-2 bg-pink-500 text-white font-semibold rounded-full shadow-lg hover:bg-pink-600 transform transition hover:scale-105"
+            className="flex items-center justify-center gap-3 w-full py-3 rounded-2xl bg-pink-500 text-white text-lg font-semibold hover:bg-pink-400 transition"
           >
-            Send Message
+            <FaPaperPlane /> Send Message
           </button>
         </form>
 
-        <p className="mt-8 text-sm text-gray-600">
-          Or email us directly at{' '}
-          <a href="mailto:support@myphotobooth.com" className="text-pink-500 hover:underline">
-            support@myphotobooth.com
-          </a>
-        </p>
+        {/* Contact Info */}
+        <div className="space-y-8">
+          <div className="bg-white rounded-3xl p-8 shadow-[0_12px_30px_-12px_rgba(0,0,0,0.18)] space-y-4">
+            <h2 className="text-2xl font-semibold text-slate-900">Get in Touch</h2>
+            <p className="text-slate-600">
+              Have questions or feedback? Reach us through the channels below!
+            </p>
+            <ul className="space-y-2 text-slate-700">
+              <li>Email: <a href="mailto:hello@snap-charm.vercel.app" className="text-pink-500 hover:underline">hello@snap-charm.vercel.app</a></li>
+              <li>Phone: <span className="text-slate-500">+63 912 345 6789</span></li>
+              <li>Address: <span className="text-slate-500">Philippines</span></li>
+            </ul>
+          </div>
 
-        <Link
-          to="/"
-          className="inline-block mt-6 text-pink-500 hover:underline"
-        >
-          ← Back to Home
-        </Link>
+          <div className="bg-white rounded-3xl p-6 shadow-[0_12px_30px_-12px_rgba(0,0,0,0.18)] text-center">
+            <h3 className="text-lg font-semibold text-slate-900 mb-3">Follow Us</h3>
+            <div className="flex justify-center gap-6 text-xl text-slate-500">
+              <a href="#" className="hover:text-pink-500 transition"><FaInstagram /></a>
+              <a href="#" className="hover:text-pink-500 transition"><FaFacebook /></a>
+              <a href="#" className="hover:text-pink-500 transition"><FaTwitter /></a>
+            </div>
+          </div>
+        </div>
       </div>
+    </main>
+      <Footer />
     </div>
   );
 }
-
-export default Contact;

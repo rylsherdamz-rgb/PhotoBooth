@@ -1,4 +1,5 @@
 import Navigation from "./Navigation"
+import CallToAction from "./BottomSection"
 import BodySection from "./BodySection"
 import Hero from './Hero'
 
@@ -17,6 +18,7 @@ function HomeCanvas() {
           <Hero />
           <div className="">
             <BodySection />
+            <CallToAction />
           </div>
         </main>
       </div>

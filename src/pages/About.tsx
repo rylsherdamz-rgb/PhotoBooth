@@ -1,42 +1,115 @@
-import Navigation from "../components/Navigation"
+import Navigation from "../components/Navigation";
+import Footer from "../components/Footer";
+
 
 export default function About() {
+  return (
+    <div>
+      <Navigation />
 
-    
+    <main className="max-w-5xl mx-auto px-6 pt-32 pb-40">
+      {/* HERO */}
+      <section className="space-y-8 mb-24">
+        <h1 className="text-4xl md:text-5xl font-bold text-slate-900 leading-tight">
+          About SnapCharm
+        </h1>
+        <p className="text-lg md:text-xl text-slate-600 max-w-3xl">
+          SnapCharm is an online photobooth built to make capturing
+          cute, aesthetic moments simple, fast, and fun — directly
+          from your browser.
+        </p>
+      </section>
 
-  return <div className="w-full flex flex-col gap-y-10  h-full" >
-    <div className="w-full  h-20">
-<Navigation />  
-    </div>
-    <div className="w-full h-screen bg-gray-200  py-10 px-5 ">
-     <div className="flex flex-row gap-x-5 w-full h-[40vh]">
-      <div className="w-1/2 h-full py-4 px-5 bg-red-300">
-      <div className="border rounded-2xl px-4 w-30 py-1">
-      <p className="text-lg  font-semibold">
-        About Us
-      </p>
-   
-      </div>
-     <div className="w-full py-5 flex flex-col gap-y-5 mb-5 ">
-    <p className="text-2xl">
-      About Our PhotoBooth
-    </p>    
-    <p>
-      We built SnapCharm to bring the classic joy of photo booths straight to your screen — no lines, no bulky hardware, and no limits. Whether you’re capturing a solo selfie, snapping laughs with friends, or creating memories with family, SnapCharm makes every moment picture-perfect and shareable.
-    </p> 
-      </div>
-      <div className="w-full h-10 flex flex-row gap-x-5">
-      <button className="bg-red-500 rounded-xl px-4 ">Get Started</button>
-      <button className="border border-blue-300 px-4 rounded-xl">See Photos</button>
-      </div>
-        </div> 
-    <div className="w-1/2 h-full p-5 px-30 bg-green-300">
-      <div className="w-full h-full rounded-lg bg-blue-300">
-
-      </div>
+      {/* STORY */}
+      <section className="grid md:grid-cols-2 gap-16 items-start mb-32">
+        <div className="space-y-6">
+          <h2 className="text-2xl font-semibold text-slate-900">
+            Why SnapCharm Exists
+          </h2>
+          <p className="text-slate-700 leading-relaxed">
+            We created SnapCharm for people who love taking photos but
+            don’t want complicated apps, heavy downloads, or confusing
+            interfaces. Whether you’re capturing moments alone, with
+            friends, or during special events, SnapCharm keeps the
+            experience effortless.
+          </p>
+          <p className="text-slate-700 leading-relaxed">
+            Everything runs in your browser — open the booth, smile,
+            snap, and download. No sign-ups. No friction.
+          </p>
         </div>
-    </div> 
 
+        <div className="space-y-6">
+          <h2 className="text-2xl font-semibold text-slate-900">
+            What Makes It Different
+          </h2>
+          <ul className="space-y-4 text-slate-700">
+            <li>✨ Clean, minimal photobooth experience</li>
+            <li>📸 Cute filters and modern layouts</li>
+            <li>⚡ Fast, browser-based performance</li>
+            <li>🔒 Privacy-first — your photos stay yours</li>
+          </ul>
+        </div>
+      </section>
+
+      {/* VALUES */}
+      <section className="space-y-16 mb-32">
+        <div className="text-center max-w-2xl mx-auto space-y-4">
+          <h2 className="text-3xl font-bold text-slate-900">
+            Our Values
+          </h2>
+          <p className="text-slate-600">
+            The principles behind how SnapCharm is built.
+          </p>
+        </div>
+
+        <div className="grid md:grid-cols-3 gap-10">
+          {[
+            {
+              title: "Simplicity",
+              desc: "No clutter, no learning curve — just open and snap.",
+            },
+            {
+              title: "Creativity",
+              desc: "Tools that let your personality shine through photos.",
+            },
+            {
+              title: "Privacy",
+              desc: "We respect your data and never overstep.",
+            },
+          ].map((value, i) => (
+            <div
+              key={i}
+              className="
+                bg-white
+                rounded-3xl p-8
+                shadow-[0_12px_30px_-12px_rgba(0,0,0,0.18)]
+              "
+            >
+              <h3 className="text-xl font-semibold text-slate-900 mb-3">
+                {value.title}
+              </h3>
+              <p className="text-slate-600">
+                {value.desc}
+              </p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      {/* CLOSING */}
+      <section className="text-center max-w-3xl mx-auto space-y-6">
+        <h2 className="text-3xl font-bold text-slate-900">
+          Built for Moments That Matter
+        </h2>
+        <p className="text-lg text-slate-600">
+          SnapCharm is designed to turn everyday moments into memories
+          worth keeping. We believe photos should feel fun, effortless,
+          and personal — just like the moments themselves.
+        </p>
+      </section>
+    </main>
+        <Footer />
     </div>
-  </div>
+  );
 }
