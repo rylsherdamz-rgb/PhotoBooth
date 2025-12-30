@@ -1,14 +1,9 @@
-import  { useState, useEffect } from 'react';
-
-import HomeCanvas from '../components/HomeCanvas';
-import SnapCharmText from '../components/SnapCharmText';
-import Footer from '../components/Footer';
-
-
+import { useState, useEffect } from "react";
+import HomeCanvas from "../components/HomeCanvas";
+import SnapCharmText from "../components/SnapCharmText";
 
 export default function Home() {
   const [showIntro, setShowIntro] = useState(true);
-  //show only the intro for new user
 
   // Automatically hide intro after 2 seconds
   useEffect(() => {
@@ -19,19 +14,18 @@ export default function Home() {
   }, [showIntro]);
 
   return (
-    <div className="relative ">
+    <div className="w-full h-full flex-1 overflow-x-hidden relative">
       {showIntro ? (
-        <div className="absolute  left-1/2 transform mt-40 -translate-x-1/2 translate-y-1/2">
-          <SnapCharmText  />
+        <div className="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 max-w-full px-4">
+          {/* Ensure SnapCharmText itself is responsive */}
+          <SnapCharmText />
         </div>
-        
       ) : (
-        
-        <HomeCanvas />
+        <div className="w-full h-full">
+          {/* Make HomeCanvas fill the container without overflowing */}
+          <HomeCanvas  />
+        </div>
       )}
-            
-   
-        
     </div>
   );
 }

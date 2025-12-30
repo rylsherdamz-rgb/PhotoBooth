@@ -56,37 +56,30 @@ function Hero() {
   return (
     <section
       ref={heroRef}
-      className="relative w-full max-w-7xl mx-auto px-6 py-24 overflow-hidden"
+      className="relative w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-24 overflow-x-hidden"
     >
-      <div className="grid md:grid-cols-2 gap-16 items-center">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
         {/* LEFT CONTENT */}
-        <div className="space-y-10">
-          <div className="space-y-5">
-            <h1 className="hero-item text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight">
+        <div className="space-y-8 sm:space-y-10">
+          <div className="space-y-4 sm:space-y-5">
+            <h1 className="hero-item text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 leading-tight">
               SnapCharm <br />
               <span className="text-pink-500 drop-shadow-sm">
                 Online PhotoBooth
               </span>
             </h1>
 
-            <p className="hero-item text-lg md:text-xl text-slate-600 max-w-xl">
+            <p className="hero-item text-base sm:text-lg md:text-xl text-slate-600 max-w-lg">
               Capture cute, aesthetic moments right from your browser.
               Apply filters, frames, and download instantly — no app needed ✨
             </p>
           </div>
 
           {/* CTA */}
-          <div className="hero-item flex gap-4">
+          <div className="hero-item flex flex-col sm:flex-row gap-4">
             <Link
               to="/booth"
-              className="
-                inline-flex items-center justify-center
-                px-9 py-4 rounded-xl
-                bg-pink-500 text-white text-lg font-semibold
-                shadow-lg shadow-pink-300/40
-                hover:bg-pink-400 hover:scale-[1.03]
-                transition-all duration-200
-              "
+              className="inline-flex items-center justify-center px-8 sm:px-10 py-3 sm:py-4 rounded-xl bg-pink-500 text-white text-lg font-semibold shadow-lg shadow-pink-300/40 hover:bg-pink-400 hover:scale-[1.03] transition-all duration-200"
             >
               <FaCamera className="mr-2" />
               Start Photo Session
@@ -94,7 +87,7 @@ function Hero() {
           </div>
 
           {/* FEATURES */}
-          <div className="grid grid-cols-2 gap-6 pt-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-6 pt-6">
             {[
               { title: "Cute Filters", desc: "Soft & aesthetic styles" },
               { title: "Instant Download", desc: "Save photos in seconds" },
@@ -102,28 +95,20 @@ function Hero() {
               { title: "HD Quality", desc: "Bright & clear shots" },
             ].map((item, i) => (
               <div key={i} className="hero-item">
-                <h3 className="font-semibold text-slate-900">
-                  {item.title}
-                </h3>
-                <p className="text-sm text-slate-600">
-                  {item.desc}
-                </p>
+                <h3 className="font-semibold text-slate-900">{item.title}</h3>
+                <p className="text-sm sm:text-base text-slate-600">{item.desc}</p>
               </div>
             ))}
           </div>
         </div>
 
         {/* RIGHT PHOTO PREVIEW */}
-        <div ref={previewRef} className="relative flex justify-center">
+        <div
+          ref={previewRef}
+          className="relative flex justify-center mt-8 md:mt-0 overflow-visible"
+        >
           {/* MAIN PHOTO */}
-          <div
-            className="
-              relative w-[280px] sm:w-[320px] aspect-[3/4]
-              rounded-3xl bg-white
-              shadow-2xl shadow-pink-300/40
-              overflow-hidden
-            "
-          >
+          <div className="relative w-[220px] sm:w-[280px] md:w-[320px] lg:w-[360px] aspect-[3/4] rounded-3xl bg-white shadow-2xl shadow-pink-300/40 overflow-hidden">
             <img
               src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?q=80&w=800&auto=format&fit=crop"
               alt="Photobooth preview"
@@ -134,29 +119,31 @@ function Hero() {
             <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-white/10" />
 
             {/* Caption */}
-            <div className="absolute bottom-0 w-full bg-white/90 backdrop-blur-md py-3 text-center">
-              <p className="text-sm font-medium text-slate-700">
+            <div className="absolute bottom-0 w-full bg-white/90 backdrop-blur-md py-2 sm:py-3 text-center">
+              <p className="text-sm sm:text-base font-medium text-slate-700">
                 SnapCharm ✨
               </p>
             </div>
           </div>
 
-          {/* PHOTO STRIP (EXTRA REALISM) */}
-          <div className="absolute -right-10 top-12 rotate-6 scale-90 hidden md:block">
-            <div className="w-[120px] bg-white rounded-xl shadow-lg overflow-hidden">
+          {/* PHOTO STRIP */}
+          <div className="absolute right-0 top-10 rotate-6 scale-90 hidden md:flex flex-col space-y-2">
+            <div className="w-[100px] sm:w-[120px] bg-white rounded-xl shadow-lg overflow-hidden">
               <img
                 src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e"
-                className="w-full h-28 object-cover"
+                className="w-full h-24 sm:h-28 object-cover"
               />
               <img
                 src="https://images.unsplash.com/photo-1524504388940-b1c1722653e1"
-                className="w-full h-28 object-cover"
+                className="w-full h-24 sm:h-28 object-cover"
               />
             </div>
           </div>
 
           {/* GLOW */}
-          <div className="absolute -z-10 w-[300px] h-[420px] bg-pink-300/40 blur-3xl rounded-full" />
+          <div className="absolute inset-0 flex justify-center items-center -z-10">
+            <div className="w-[240px] sm:w-[300px] h-[340px] sm:h-[420px] bg-pink-300/40 blur-3xl rounded-full" />
+          </div>
         </div>
       </div>
     </section>
