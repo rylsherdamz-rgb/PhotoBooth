@@ -1,4 +1,3 @@
-import { useState, useEffect } from "react";
 import HomeCanvas from "../components/HomeCanvas";
 
 export default function Home() {
