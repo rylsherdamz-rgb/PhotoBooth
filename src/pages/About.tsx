@@ -8,7 +8,6 @@ export default function About() {
       <Navigation />
 
     <main className="max-w-5xl mx-auto px-6 pt-32 pb-40">
-      {/* HERO */}
       <section className="space-y-8 mb-24">
         <h1 className="text-4xl md:text-5xl font-bold text-slate-900 leading-tight">
           About SnapCharm
@@ -20,7 +19,6 @@ export default function About() {
         </p>
       </section>
 
-      {/* STORY */}
       <section className="grid md:grid-cols-2 gap-16 items-start mb-32">
         <div className="space-y-6">
           <h2 className="text-2xl font-semibold text-slate-900">

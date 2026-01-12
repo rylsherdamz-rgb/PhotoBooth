@@ -25,7 +25,6 @@ const Photos = () => {
     };
 
     loadCollages();
-    // Check for expired collages every hour
     const interval = setInterval(loadCollages, 3600000);
     return () => clearInterval(interval);
   }, []);
@@ -60,7 +59,6 @@ const Photos = () => {
 
         {collages.length === 0 ? (
           <div className="text-center py-12">
-            <div className="text-6xl mb-4">📸</div>
             <p className="text-xl text-gray-600">
               No collages yet. Start creating memories in the photo booth!
             </p>

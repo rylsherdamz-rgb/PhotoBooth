@@ -16,7 +16,6 @@ export default function Contact() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Replace with your API or email service
     alert("Message sent! Thank you for contacting SnapCharm.");
     setFormData({ name: "", email: "", message: "" });
   };
@@ -25,7 +24,6 @@ export default function Contact() {
     <div>
       <Navigation />
     <main className="max-w-4xl mx-auto px-6 pt-32 pb-40">
-      {/* Header */}
       <div className="text-center mb-16 space-y-4">
         <h1 className="text-4xl md:text-5xl font-bold text-slate-900">
           Contact Us
@@ -36,9 +34,7 @@ export default function Contact() {
         </p>
       </div>
 
-      {/* Form + Info */}
       <div className="grid md:grid-cols-2 gap-16">
-        {/* Contact Form */}
         <form
           onSubmit={handleSubmit}
           className="space-y-6 bg-white rounded-3xl p-8 shadow-[0_12px_30px_-12px_rgba(0,0,0,0.18)]"
@@ -98,8 +94,7 @@ export default function Contact() {
               Have questions or feedback? Reach us through the channels below!
             </p>
             <ul className="space-y-2 text-slate-700">
-              <li>Email: <a href="mailto:hello@snap-charm.vercel.app" className="text-pink-500 hover:underline">hello@snap-charm.vercel.app</a></li>
-              <li>Phone: <span className="text-slate-500">+63 912 345 6789</span></li>
+              <li>Email: <a href="mailto:richiechristiandeguzman11@gmail.com" className="text-pink-500 hover:underline">hello@snap-charm.vercel.app</a></li>
               <li>Address: <span className="text-slate-500">Philippines</span></li>
             </ul>
           </div>
