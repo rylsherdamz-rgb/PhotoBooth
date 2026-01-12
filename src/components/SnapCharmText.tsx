@@ -1,4 +1,3 @@
-// SnapCharmText.tsx
 import  { useEffect, useRef } from "react";
 import gsap from "gsap";
 
@@ -8,7 +7,6 @@ export default function SnapCharmText() {
   useEffect(() => {
     const textEl = textRef.current!;
 
-    // Prepare text for draw animation
     const length = textEl.getComputedTextLength();
     textEl.style.strokeDasharray = `${length}`;
     textEl.style.strokeDashoffset = `${length}`;
@@ -33,7 +31,6 @@ export default function SnapCharmText() {
         </linearGradient>
       </defs>
 
-      {/* SnapCharm in Pacifico */}
       <text
         ref={textRef}
         x="50"

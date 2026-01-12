@@ -9,7 +9,6 @@ function Hero() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Text entrance
       gsap.from(".hero-item", {
         opacity: 0,
         y: 30,
@@ -18,7 +17,6 @@ function Hero() {
         stagger: 0.15,
       });
 
-      // Preview entrance
       gsap.from(previewRef.current, {
         opacity: 0,
         x: 40,
@@ -27,7 +25,6 @@ function Hero() {
         delay: 0.3,
       });
 
-      // Floating animation
       gsap.to(previewRef.current, {
         y: -12,
         duration: 2.5,
@@ -36,7 +33,6 @@ function Hero() {
         ease: "sine.inOut",
       });
 
-      // Camera flash effect
       gsap.fromTo(
         previewRef.current,
         { filter: "brightness(1)" },
@@ -102,12 +98,10 @@ function Hero() {
           </div>
         </div>
 
-        {/* RIGHT PHOTO PREVIEW */}
         <div
           ref={previewRef}
           className="relative flex justify-center mt-8 md:mt-0 overflow-visible"
         >
-          {/* MAIN PHOTO */}
           <div className="relative w-[220px] sm:w-[280px] md:w-[320px] lg:w-[360px] aspect-[3/4] rounded-3xl bg-white shadow-2xl shadow-pink-300/40 overflow-hidden">
             <img
               src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?q=80&w=800&auto=format&fit=crop"
@@ -115,18 +109,11 @@ function Hero() {
               className="w-full h-full object-cover"
             />
 
-            {/* Camera overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-white/10" />
 
-            {/* Caption */}
-            <div className="absolute bottom-0 w-full bg-white/90 backdrop-blur-md py-2 sm:py-3 text-center">
-              <p className="text-sm sm:text-base font-medium text-slate-700">
-                SnapCharm ✨
-              </p>
-            </div>
+            
           </div>
 
-          {/* PHOTO STRIP */}
           <div className="absolute right-0 top-10 rotate-6 scale-90 hidden md:flex flex-col space-y-2">
             <div className="w-[100px] sm:w-[120px] bg-white rounded-xl shadow-lg overflow-hidden">
               <img
@@ -140,7 +127,6 @@ function Hero() {
             </div>
           </div>
 
-          {/* GLOW */}
           <div className="absolute inset-0 flex justify-center items-center -z-10">
             <div className="w-[240px] sm:w-[300px] h-[340px] sm:h-[420px] bg-pink-300/40 blur-3xl rounded-full" />
           </div>
