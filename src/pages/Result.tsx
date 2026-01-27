@@ -49,7 +49,6 @@ const Result = () => {
   const [activeSticker, setActiveSticker] = useState<{ id: string; offsetX: number; offsetY: number } | null>(null);
   const [resizeStickerId, setResizeStickerId] = useState<string | null>(null);
   console.log(resizeStickerId)
-  // Optimize sticker movement with requestAnimationFrame
   const animationFrameRef = useRef<number | undefined>(undefined);
   const containerRef = useRef<HTMLDivElement>(null);
   const lastRenderTime = useRef<number>(0);
@@ -59,7 +58,6 @@ const Result = () => {
     return layoutInfos.find((l) => l.count >= data.length) || layoutInfos[layoutInfos.length - 1];
   }, [data.length]);
 
-  // Load images helper
   const preloadImage = (src: string): Promise<HTMLImageElement> =>
     new Promise((resolve, reject) => {
       const img = new Image();
@@ -70,17 +68,14 @@ const Result = () => {
     });
 
 
-  // Add a ref for the controls area to help with outside click detection
   const controlsRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent | TouchEvent) => {
-      // Ignore if clicking inside color pickers or controls
       const pickerElements = document.querySelectorAll('.chrome-picker');
       const clickedInsidePicker = Array.from(pickerElements).some(el => el.contains(e.target as Node));
       if (clickedInsidePicker) return;
       if (controlsRef.current && controlsRef.current.contains(e.target as Node)) return;
-      // Ignore if clicking a sticker
       const stickerEls = document.querySelectorAll('.sticker-draggable');
       const clickedSticker = Array.from(stickerEls).some(el => el.contains(e.target as Node));
       if (clickedSticker) return;
@@ -95,7 +90,6 @@ const Result = () => {
     };
   }, []);
 
-  // Render images + stickers on canvas
   useEffect(() => {
     if (!canvasRef.current || !data.length) return;
     renderCanvas();
@@ -157,13 +151,11 @@ const Result = () => {
           }
         }
 
-        // Draw stickers
         for (const sticker of stickers) {
           const stickerImg = await preloadImage(sticker.imgSrc);
           ctx.filter = "none";
           ctx.drawImage(stickerImg, sticker.x, sticker.y, sticker.width, sticker.height);
         } 
-        // Draw caption with selected language
         ctx.font = "bold 16px sans-serif";
         ctx.fillStyle = fontColor;
         ctx.textAlign = "center";
@@ -175,7 +167,6 @@ const Result = () => {
     })();
   };
 
-  // Optimize sticker movement
   useEffect(() => {
     if ((!isMoving && !resizeData) || !activeSticker) return;
 
@@ -191,18 +182,15 @@ const Result = () => {
         const canvasRect = canvasRef.current?.getBoundingClientRect();
         if (!canvasRect) return;
 
-        // Calculate position relative to canvas
         let newX = e.clientX - canvasRect.left - activeSticker.offsetX;
         let newY = e.clientY - canvasRect.top - activeSticker.offsetY;
 
-        // Clamp position to canvas bounds
         const currentSticker = stickers.find(s => s.id === activeSticker.id);
         if (!currentSticker) return;
 
         newX = Math.max(0, Math.min(newX, canvasRect.width - currentSticker.width));
         newY = Math.max(0, Math.min(newY, canvasRect.height - currentSticker.height));
 
-        // Update sticker position directly
         setStickers(prev =>
           prev.map(s =>
             s.id === activeSticker.id
@@ -234,7 +222,6 @@ const Result = () => {
     };
   }, [isMoving, activeSticker, stickers]);
 
-  // Handle sticker resizing
   useEffect(() => {
     if (!resizeData) return;
 
@@ -248,7 +235,6 @@ const Result = () => {
       let newX = stickers.find(s => s.id === id)?.x || 0;
       let newY = stickers.find(s => s.id === id)?.y || 0;
 
-      // Calculate new dimensions based on resize position
       if (pos.includes('right')) {
         newWidth = Math.max(50, startWidth + deltaX);
       }
@@ -293,7 +279,6 @@ const Result = () => {
         throw new Error('Canvas not initialized');
       }
 
-      // Create a temporary canvas for high-quality rendering
       const tempCanvas = document.createElement('canvas');
       const tempCtx = tempCanvas.getContext('2d');
       if (!tempCtx) {
@@ -307,7 +292,6 @@ const Result = () => {
       const canvasWidth = maxCols * imageSize + (maxCols + 1) * padding;
       const canvasHeight = rows * imageSize + (rows + 1) * padding + 40;
 
-      // Set high DPI for better quality
       const dpr = 2;
       tempCanvas.width = canvasWidth * dpr;
       tempCanvas.height = canvasHeight * dpr;
@@ -320,7 +304,6 @@ const Result = () => {
       tempCtx.imageSmoothingEnabled = true;
       tempCtx.imageSmoothingQuality = "high";
 
-      // Load and draw images
       const maxImages = layout.flat().reduce((a, b) => a + b, 0);
       const images = await Promise.all(
         data.slice(0, maxImages).map((imgData) => preloadImage(imgData.imgSrc))
@@ -340,7 +323,6 @@ const Result = () => {
         }
       }
 
-      // Draw stickers
       for (const sticker of stickers) {
         try {
           const stickerImg = await preloadImage(sticker.imgSrc);
@@ -351,14 +333,12 @@ const Result = () => {
         }
       }
 
-      // Draw caption with selected language
       tempCtx.font = "bold 16px sans-serif";
       tempCtx.fillStyle = fontColor;
       tempCtx.textAlign = "center";
       tempCtx.textBaseline = "bottom";
       tempCtx.fillText(captions[selectedLanguage], canvasWidth / 2, canvasHeight - 15);
 
-      // Convert to blob with error handling
       const blob = await new Promise<Blob>((resolve, reject) => {
         tempCanvas.toBlob((blob) => {
           if (blob) {
@@ -368,18 +348,14 @@ const Result = () => {
           }
         }, 'image/png', 1.0);
       });
-      
-      // Create and trigger download
       const url = URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
       link.download = `snapcharm-${new Date().getTime()}.png`;
       
-      // Ensure the link is added to the document
       document.body.appendChild(link);
       link.click();
       
-      // Cleanup
       setTimeout(() => {
         document.body.removeChild(link);
         URL.revokeObjectURL(url);
@@ -391,7 +367,6 @@ const Result = () => {
     }
   };
 
-  // Improve sticker upload UI
   
 
   return (
@@ -399,7 +374,7 @@ const Result = () => {
       <Navigation />
       <div className="max-w-7xl mx-auto p-4 flex flex-col lg:flex-row justify-center items-start mt-5 gap-8">
 
-      <div className="w-full lg:w-2/3 flex justify-center">
+              <div className="w-full lg:w-2/3 flex justify-center">
        <Canvas stickers={stickers}
        bgColor={bgColor}
        activeSticker={activeSticker}
@@ -414,12 +389,11 @@ const Result = () => {
         containerRef={containerRef}
         
        />
+
       </div>
         
-       {/* Controls Section */}
         <div ref={controlsRef} className="w-full lg:w-1/3 space-y-6 bg-white p-6 rounded-xl shadow-lg">
           <h2 className="text-2xl font-bold text-gray-800 mb-6">Customize Your Photo</h2>
-          {/* Language Selector */}
           <Caption selectedLanguage={selectedLanguage } setSelectedLanguage={setSelectedLanguage}/>
           <div>
             <BackgroundColorSelector setBgColor={setBgColor}
