@@ -5,6 +5,7 @@ import {
   FaFacebook,
   FaTwitter,
   FaCamera,
+  FaLinkedin
 } from "react-icons/fa";
 
 export default function Footer() {
@@ -66,7 +67,9 @@ export default function Footer() {
               <Link  to={`${socials[2].url}`}  className="hover:text-pink-500 transition">
                 <FaTwitter />
               </Link>
-
+              <Link  to={`${socials[1].url}`}  className="hover:text-pink-500 transition">
+                <FaLinkedin />
+              </Link>
             </div>
           </div>
         </div>
