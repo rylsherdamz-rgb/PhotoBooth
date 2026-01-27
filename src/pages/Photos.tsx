@@ -15,6 +15,16 @@ const Photos = () => {
 
   if (!context) return null
 
+  const {data : Photos} = context
+
+  const loadContext = () => {
+      Photos.map((image, index) => {
+      return <div key={index} className="w-full flex flex-row flew-wrap  h-full px-5 py-10">
+         <img src={image.imgSrc} className="contain w-12 h-12"  />   
+      </div>  
+    })
+  }
+
   useEffect(() => {
     const loadCollages = () => {
       const storedCollages = localStorage.getItem('photobooth_downloaded_collages');
@@ -55,11 +65,15 @@ const Photos = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-pink-50 to-purple-50">
       <Navigation />
+
+
       
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-4xl font-bold text-center mb-8 text-gray-800">
           Your Photo Collection
         </h1>
+
+        <LoadContext />
 
         {collages.length === 0 ? (
           <div className="text-center py-12">
