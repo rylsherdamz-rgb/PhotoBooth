@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import socials from "@/constant/social"
+import socials from "../constants/social"
 import {
   FaInstagram,
   FaFacebook,
