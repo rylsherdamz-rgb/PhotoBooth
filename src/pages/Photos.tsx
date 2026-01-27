@@ -1,5 +1,6 @@
-import  { useEffect, useState } from 'react';
+import  { useEffect, useState, useContext } from 'react';
 import Navigation from '../components/Navigation';
+import { imageContext } from "../Context/ImageContext"
 
 type DownloadedCollage = {
   imgSrc: string;
@@ -10,6 +11,9 @@ type DownloadedCollage = {
 const Photos = () => {
   const [collages, setCollages] = useState<DownloadedCollage[]>([]);
   const [selectedCollage, setSelectedCollage] = useState<DownloadedCollage | null>(null);
+  const context = useContext(imageContext)
+
+  if (!context) return null
 
   useEffect(() => {
     const loadCollages = () => {

@@ -35,7 +35,6 @@ export default function Canvas({containerRef, bgColor, stickers,canvasRef,
     const {data} = context
     
     return <div className="">
-        {/* Canvas container with relative positioning to overlay stickers */}
         <div >
           <div ref={containerRef} className="relative border border-gray-300 rounded-xl shadow-lg bg-white overflow-hidden max-w-2xl">
             {data && (
@@ -45,7 +44,6 @@ export default function Canvas({containerRef, bgColor, stickers,canvasRef,
                   className="w-full h-auto rounded-xl"
                   style={{ backgroundColor: bgColor }}
                 />
-                {/* Draggable stickers overlay */}
                 {stickers.map((sticker) => (
                   <div
                     key={sticker.id}
@@ -107,7 +105,7 @@ export default function Canvas({containerRef, bgColor, stickers,canvasRef,
               </>
             )}
             {!data && (
-              <div className="w-full h-80 flex items-center justify-center text-center rounded-xl shadow-lg border border-gray-300">
+              <div className="w-full text-xl h-80 flex items-center justify-center text-center rounded-xl shadow-lg border border-gray-300">
                 No Image Taken
               </div>
             )}
