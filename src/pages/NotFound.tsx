@@ -12,7 +12,6 @@ function NotFound() {
 
     const tl = gsap.timeline();
 
-    // Animate container: scale up and fade in
     tl.fromTo(
       containerRef.current,
       { scale: 0.8, opacity: 0 },
@@ -24,7 +23,6 @@ function NotFound() {
       }
     );
 
-    // Animate text sliding down with bounce effect
     tl.fromTo(
       textRef.current,
       { y: -50, opacity: 0 },
@@ -37,7 +35,6 @@ function NotFound() {
       "-=0.3"
     );
 
-    // Animate button scaling and fade in with elastic effect
     tl.fromTo(
       buttonRef.current,
       { scale: 0, opacity: 0 },
@@ -58,7 +55,6 @@ function NotFound() {
   return (
     <div
       ref={containerRef}
-      // Set initial opacity 0 in CSS so GSAP animations show properly
       className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-gray-800 via-gray-700 to-gray-900 text-white p-4 opacity-0"
     >
       <div

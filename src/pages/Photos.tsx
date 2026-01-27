@@ -23,7 +23,6 @@ const Photos = () => {
         try {
           const parsed: DownloadedCollage[] = JSON.parse(stored);
           const now = Date.now();
-          // Filter out expired items automatically
           const valid = parsed.filter(c => c.expiryDate > now);
           setCollages(valid);
           if (valid.length !== parsed.length) {

@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import socials from "@/constant/social"
 import {
   FaInstagram,
   FaFacebook,
@@ -56,15 +57,16 @@ export default function Footer() {
               Follow Us
             </h4>
             <div className="flex gap-4 text-xl text-slate-500">
-              <a href="#" className="hover:text-pink-500 transition">
+              <a href={`${socials[0].url}`} className="hover:text-pink-500 transition">
                 <FaInstagram />
               </a>
-              <a href="#" className="hover:text-pink-500 transition">
+              <a href={`${socials[3].url}`} className="hover:text-pink-500 transition">
                 <FaFacebook />
               </a>
-              <a href="#" className="hover:text-pink-500 transition">
+              <a  href={`${socials[2].url}`} " className="hover:text-pink-500 transition">
                 <FaTwitter />
               </a>
+              } 
             </div>
           </div>
         </div>
