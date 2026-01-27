@@ -1,4 +1,5 @@
 import HomeCanvas from "../components/HomeCanvas";
+import Footer from "../components/Footer"
 
 export default function Home() {
 
@@ -8,6 +9,7 @@ export default function Home() {
        <div className="w-full h-full">
           <HomeCanvas  />
         </div>
+      <Footer />
     </div>
   );
 }
