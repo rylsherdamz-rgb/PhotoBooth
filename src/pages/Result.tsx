@@ -37,7 +37,7 @@ const Result = () => {
   const [bgColor, setBgColor] = useState("#ffffff");
   const [fontColor, setFontColor] = useState("#333");
   const [filter] = useState("none");
-  const imageSize = 160; // Fixed size
+  const imageSize = 160;
   const [padding] = useState(10);
 
   const [stickers, setStickers] = useState<Sticker[]>([]);
@@ -62,7 +62,7 @@ const Result = () => {
   const animationFrameRef = useRef<number | undefined>(undefined);
   const containerRef = useRef<HTMLDivElement>(null);
   const lastRenderTime = useRef<number>(0);
-  const RENDER_THROTTLE_MS = 16; // ~60fps
+  const RENDER_THROTTLE_MS = 16;
 
   const selectedLayout = React.useMemo(() => {
     return (
@@ -267,13 +267,17 @@ const Result = () => {
           images.forEach((img, index) => {
             const slot = selectedLayout.slots?.[index];
             if (!slot) return;
-            const x = slot.x * drawWidth;
-            const y = slot.y * drawHeight;
-            const width = slot.width * drawWidth;
-            const height = slot.height * drawHeight;
+            const padX = (selectedLayout.slotPadding || 0) * drawWidth;
+            const padY = (selectedLayout.slotPadding || 0) * drawHeight;
+            const x = slot.x * drawWidth - padX;
+            const y = slot.y * drawHeight - padY;
+            const width = slot.width * drawWidth + padX * 2;
+            const height = slot.height * drawHeight + padY * 2;
             ctx.filter = data[index].filter || filter || "none";
             if (selectedLayout.fit === "contain") {
               drawImageContain(ctx, img, x, y, width, height);
+            } else if (selectedLayout.fit === "stretch") {
+              ctx.drawImage(img, x, y, width, height);
             } else {
               drawImageCover(ctx, img, x, y, width, height);
             }
@@ -330,9 +334,6 @@ const Result = () => {
       }
 
       animationFrameRef.current = requestAnimationFrame(() => {
-        const container = containerRef.current;
-        if (!container) return;
-
         const canvasRect = canvasRef.current?.getBoundingClientRect();
         if (!canvasRect) return;
 
@@ -482,13 +483,17 @@ const Result = () => {
         images.forEach((img, index) => {
           const slot = selectedLayout.slots?.[index];
           if (!slot) return;
-          const x = slot.x * drawWidth;
-          const y = slot.y * drawHeight;
-          const width = slot.width * drawWidth;
-          const height = slot.height * drawHeight;
+          const padX = (selectedLayout.slotPadding || 0) * drawWidth;
+          const padY = (selectedLayout.slotPadding || 0) * drawHeight;
+          const x = slot.x * drawWidth - padX;
+          const y = slot.y * drawHeight - padY;
+          const width = slot.width * drawWidth + padX * 2;
+          const height = slot.height * drawHeight + padY * 2;
           tempCtx.filter = data[index].filter || filter || "none";
           if (selectedLayout.fit === "contain") {
             drawImageContain(tempCtx, img, x, y, width, height);
+          } else if (selectedLayout.fit === "stretch") {
+            tempCtx.drawImage(img, x, y, width, height);
           } else {
             drawImageCover(tempCtx, img, x, y, width, height);
           }
@@ -509,7 +514,6 @@ const Result = () => {
             if (layout[row][col] === 1 && imgIndex < images.length) {
               const x = padding + col * (imageSize + padding);
               const y = padding + row * (imageSize + padding);
-
               tempCtx.filter = data[imgIndex].filter || filter || "none";
               tempCtx.drawImage(images[imgIndex], x, y, imageSize, imageSize);
               imgIndex++;
@@ -564,7 +568,7 @@ const Result = () => {
     <div className="min-h-screen bg-gray-50">
       <Navigation />
       <div className="max-w-7xl mx-auto p-4 flex flex-col lg:flex-row justify-center items-start mt-5 gap-8">
-        <div className="w-full contain lg:w-2/3 flex justify-center">
+        <div className="w-full lg:w-2/3 flex justify-center">
           <Canvas
             stickers={stickers}
             bgColor={bgColor}

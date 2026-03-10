@@ -16,7 +16,8 @@ export interface LayoutInfo {
   slots?: LayoutSlot[];
   showCaption?: boolean;
   debugSlots?: boolean;
-  fit?: "cover" | "contain";
+  fit?: "cover" | "contain" | "stretch";
+  slotPadding?: number;
 }
 
 const gateNewsLayout: number[][] = [
@@ -26,11 +27,12 @@ const gateNewsLayout: number[][] = [
 ];
 
 const gateNewsSlots: LayoutSlot[] = [
-  { x: 0.075, y: 0.205, width: 0.305, height: 0.145 },
-  { x: 0.405, y: 0.170, width: 0.515, height: 0.195 },
-  { x: 0.405, y: 0.450, width: 0.515, height: 0.195 },
-  { x: 0.405, y: 0.727, width: 0.515, height: 0.195 },
+  { x: 0.088, y: 0.242, width: 0.303, height: 0.094 },
+  { x: 0.490, y: 0.163, width: 0.420, height: 0.142 },
+  { x: 0.465, y: 0.515, width: 0.443, height: 0.142 },
+  { x: 0.465, y: 0.793, width: 0.443, height: 0.142 },
 ];
+const gateNewsSlotPadding = 0.015;
 
 export const layoutInfos: LayoutInfo[] = [
   {
@@ -110,8 +112,9 @@ export const layoutInfos: LayoutInfo[] = [
     backgroundImage: "/sample/1.png",
     slots: gateNewsSlots,
     showCaption: false,
-    debugSlots: true,
-    fit: "contain",
+    debugSlots: false,
+    fit: "stretch",
+    slotPadding: gateNewsSlotPadding,
   },
   {
     id: "gatenews-2",
@@ -124,7 +127,8 @@ export const layoutInfos: LayoutInfo[] = [
     slots: gateNewsSlots,
     showCaption: false,
     debugSlots: false,
-    fit: "contain",
+    fit: "stretch",
+    slotPadding: gateNewsSlotPadding,
   },
   {
     id: "gatenews-3",
@@ -137,7 +141,8 @@ export const layoutInfos: LayoutInfo[] = [
     slots: gateNewsSlots,
     showCaption: false,
     debugSlots: false,
-    fit: "contain",
+    fit: "stretch",
+    slotPadding: gateNewsSlotPadding,
   },
   {
     id: "gatenews-4",
@@ -150,7 +155,8 @@ export const layoutInfos: LayoutInfo[] = [
     slots: gateNewsSlots,
     showCaption: false,
     debugSlots: false,
-    fit: "contain",
+    fit: "stretch",
+    slotPadding: gateNewsSlotPadding,
   },
   {
     id: "gatenews-5",
@@ -163,7 +169,8 @@ export const layoutInfos: LayoutInfo[] = [
     slots: gateNewsSlots,
     showCaption: false,
     debugSlots: false,
-    fit: "contain",
+    fit: "stretch",
+    slotPadding: gateNewsSlotPadding,
   },
   {
     id: "gatenews-6",
@@ -176,6 +183,7 @@ export const layoutInfos: LayoutInfo[] = [
     slots: gateNewsSlots,
     showCaption: false,
     debugSlots: false,
-    fit: "contain",
+    fit: "stretch",
+    slotPadding: gateNewsSlotPadding,
   },
 ];

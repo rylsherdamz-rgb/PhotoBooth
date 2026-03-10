@@ -30,7 +30,7 @@ interface CanvasProp {
 export default function Canvas({containerRef, bgColor, stickers,canvasRef,
    selectedStickerId, isMoving, setIsMoving,
     activeSticker, setSelectedStickerId, setActiveSticker, 
-    setResizeStickerId,setResizeData, fitMode = "default", scale = 1 }:CanvasProp) {
+    setResizeStickerId,setResizeData, fitMode = "default", scale = 0.4 }:CanvasProp) {
     const context = useContext(imageContext)
     if (!context) throw Error("No Image")
     
