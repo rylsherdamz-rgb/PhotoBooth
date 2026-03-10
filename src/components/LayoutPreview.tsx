@@ -4,9 +4,26 @@ import type { LayoutInfo } from "./layoutInfos";
 type LayoutPreviewProps = {
   layout: number[][];
   type: LayoutInfo["type"];
+  previewImage?: string;
 };
 
-export const LayoutPreview: React.FC<LayoutPreviewProps> = ({ layout, type }) => {
+export const LayoutPreview: React.FC<LayoutPreviewProps> = ({
+  layout,
+  type,
+  previewImage,
+}) => {
+  if (previewImage) {
+    return (
+      <div className="flex flex-col items-center px-2">
+        <img
+          src={previewImage}
+          alt="Layout preview"
+          className="w-20 h-28 object-cover rounded-md border border-gray-200 shadow-sm"
+        />
+      </div>
+    );
+  }
+
   const rowCount = layout.length;
   const colCount = layout[0]?.length || 0;
 

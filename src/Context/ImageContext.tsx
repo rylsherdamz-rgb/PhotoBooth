@@ -19,7 +19,8 @@ export const videoConstraints = {
 export interface imageContextType {
     data : ImageContext[] | null
     setImage :  React.Dispatch<React.SetStateAction<ImageContext[]>>
+    selectedLayoutId: string | null
+    setSelectedLayoutId: React.Dispatch<React.SetStateAction<string | null>>
 }
 
 export const imageContext = createContext<imageContextType | null>( null)
-

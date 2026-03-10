@@ -48,7 +48,7 @@ export const AllLayoutsPreview: React.FC = () => {
       className="relative w-full h-[300px] flex items-center justify-center"
       ref={containerRef}
     >
-      {layoutInfos.map(({ count, layout, type }, index) => {
+      {layoutInfos.map(({ count, layout, type, previewImage }, index) => {
         const offset = index - centerIndex;
         const angle = offset * angleStep;
         const xShift = offset * shiftStep;
@@ -64,7 +64,11 @@ export const AllLayoutsPreview: React.FC = () => {
               opacity: 0, // initial hidden for animation
             }}
           >
-            <LayoutPreview layout={layout} type={type} />
+            <LayoutPreview
+              layout={layout}
+              type={type}
+              previewImage={previewImage}
+            />
           </div>
         );
       })}

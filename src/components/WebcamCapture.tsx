@@ -4,16 +4,23 @@ import { Link } from "react-router-dom";
 import { imageContext, videoConstraints } from "../Context/ImageContext";
 import { FilterPresets } from "./FilterPresets";
 import { LayoutSelector } from "./LayoutSelector";
+import { layoutInfos, type LayoutInfo } from "./layoutInfos";
 import { TimerSelector } from "./TimerSelector";
 import { CapturedImageList } from "./CapturedImageList";
 
 export const WebcamCapture = () => {
   const context = useContext(imageContext);
   if (!context) throw new Error("Must be used within provider");
-  const { data, setImage } = context;
+  const { data, setImage, selectedLayoutId, setSelectedLayoutId } = context;
 
   if (!data) throw new Error("Must be used within provider");
-  const [layoutImageCount, setLayoutImageCount] = useState<number>(3);
+  const defaultLayout =
+    layoutInfos.find((info) => info.id === selectedLayoutId) ||
+    layoutInfos.find((info) => info.count === 3) ||
+    layoutInfos[0];
+  const [layoutImageCount, setLayoutImageCount] = useState<number>(
+    defaultLayout.count
+  );
   const [selectedTimer, setSelectedTimer] = useState(3);
   const [filter, setFilter] = useState<string | null>(null);
   const [timer, setTimer] = useState(0);
@@ -25,10 +32,26 @@ export const WebcamCapture = () => {
   const currentCount = data.length;
 
   useEffect(() => {
+    if (!selectedLayoutId) {
+      setSelectedLayoutId(defaultLayout.id);
+    }
+  }, [defaultLayout.id, selectedLayoutId, setSelectedLayoutId]);
+
+  useEffect(() => {
     if (data.length > layoutImageCount) {
       setImage(data.slice(0, layoutImageCount));
     }
   }, [layoutImageCount, data, setImage]);
+
+  useEffect(() => {
+    const selectedLayout = layoutInfos.find((info) => info.id === selectedLayoutId);
+    if (!selectedLayout || selectedLayout.count !== layoutImageCount) {
+      const nextLayout =
+        layoutInfos.find((info) => info.count === layoutImageCount) ||
+        layoutInfos[0];
+      setSelectedLayoutId(nextLayout.id);
+    }
+  }, [layoutImageCount, selectedLayoutId, setSelectedLayoutId]);
 
   const capture = useCallback(
     (index: number | null) => {
@@ -112,7 +135,13 @@ export const WebcamCapture = () => {
     <div className="flex flex-col items-center w-full p-4">
       <div className="flex max-sm:flex-cols justify-center h items-center gap-2 p-4 w-full max-w-2xl mx-auto flex-nowrap">
         <TimerSelector selected={selectedTimer} onChange={setSelectedTimer} />
-        <LayoutSelector selectedCount={layoutImageCount} onChange={setLayoutImageCount} />
+        <LayoutSelector
+          selectedLayoutId={selectedLayoutId}
+          onChange={(layout: LayoutInfo) => {
+            setLayoutImageCount(layout.count);
+            setSelectedLayoutId(layout.id);
+          }}
+        />
         <label className="flex items-center px-2 py-2 bg-pink-200 rounded hover:bg-purple-300 cursor-pointer">
           <h1 className="text-sm text-nowrap">Upload Image</h1> 
           <input type="file" accept="image/*" onChange={handleUpload} className="hidden" />
@@ -230,7 +259,11 @@ export const WebcamCapture = () => {
 
       <div className="mt-6 flex gap-4">
         {currentCount >= layoutImageCount ? (
-          <Link to="/result" className="px-6 py-2 bg-pink-600 text-white rounded hover:bg-purple-700">
+          <Link
+            to="/result"
+            state={{ layoutId: selectedLayoutId }}
+            className="px-6 py-2 bg-pink-600 text-white rounded hover:bg-purple-700"
+          >
             Next
           </Link>
         ) : (

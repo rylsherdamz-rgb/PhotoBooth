@@ -1,13 +1,13 @@
 import  { useState, useRef, useEffect } from "react";
-import { layoutInfos } from "./layoutInfos";
+import { layoutInfos, type LayoutInfo } from "./layoutInfos";
 import { LayoutPreview } from "./LayoutPreview";
 
 export const LayoutSelector = ({
-  selectedCount,
+  selectedLayoutId,
   onChange,
 }: {
-  selectedCount: number;
-  onChange: (count: number) => void;
+  selectedLayoutId: string | null;
+  onChange: (layout: LayoutInfo) => void;
 }) => {
   const [showDropdown, setShowDropdown] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -22,7 +22,10 @@ export const LayoutSelector = ({
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  const selectedLayout = layoutInfos.find((info) => info.count === selectedCount);
+  const selectedLayout =
+    layoutInfos.find((info) => info.id === selectedLayoutId) ||
+    layoutInfos.find((info) => info.count === 3) ||
+    layoutInfos[0];
 
   return (
     <div
@@ -37,11 +40,15 @@ export const LayoutSelector = ({
         <div className="flex items-center gap-2 min-w-0">
           {selectedLayout && (
             <div className="scale-[0.85] origin-left shrink-0">
-              <LayoutPreview layout={selectedLayout.layout} type={selectedLayout.type} />
+              <LayoutPreview
+                layout={selectedLayout.layout}
+                type={selectedLayout.type}
+                previewImage={selectedLayout.previewImage}
+              />
             </div>
           )}
           <span className="text-sm font-medium truncate">
-            {selectedCount} Photo{selectedCount > 1 ? "s" : ""}
+            {selectedLayout.description}
           </span>
         </div>
         <svg
@@ -59,29 +66,33 @@ export const LayoutSelector = ({
           className="absolute z-50 mt-2 w-full max-w-md max-h-[280px] overflow-auto rounded-md border border-gray-200 bg-white shadow-lg sm:max-w-[300px]"
           role="listbox"
         >
-          {layoutInfos.map(({ count, description, layout, type }) => (
+          {layoutInfos.map(({ id, description, layout, type, previewImage }) => (
               <li
-      key={`${count}-${type}`}
+      key={id}
       tabIndex={0}
       role="option"
-      aria-selected={selectedCount === count}
+      aria-selected={selectedLayout?.id === id}
       className={`flex items-center gap-3 px-4 py-3 mb-2 cursor-pointer transition-colors duration-100
-        ${selectedCount === count ? "bg-blue-100 font-semibold" : "hover:bg-gray-100"}
+        ${selectedLayout?.id === id ? "bg-blue-100 font-semibold" : "hover:bg-gray-100"}
       `}
       onClick={() => {
-        onChange(count);
+        const nextLayout = layoutInfos.find((info) => info.id === id);
+        if (!nextLayout) return;
+        onChange(nextLayout);
         setShowDropdown(false);
       }}
       onKeyDown={(e) => {
         if (e.key === "Enter" || e.key === " ") {
-          onChange(count);
+          const nextLayout = layoutInfos.find((info) => info.id === id);
+          if (!nextLayout) return;
+          onChange(nextLayout);
           setShowDropdown(false);
         }
       }}
     >
       <div className="shrink-0 w-12 h-12 sm:w-10 sm:h-10 flex items-center justify-center">
         <div className="scale-[0.85] origin-center w-full h-full flex items-center justify-center">
-          <LayoutPreview layout={layout} type={type} />
+          <LayoutPreview layout={layout} type={type} previewImage={previewImage} />
         </div>
       </div>
       <div className="flex-1 min-w-0">

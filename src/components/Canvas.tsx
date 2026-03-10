@@ -19,16 +19,18 @@ interface CanvasProp {
     startWidth: number;
     startHeight: number;} | null>> 
    setSelectedStickerId: React.Dispatch<SetStateAction<string | null>>
-   setResizeStickerId : React.Dispatch<SetStateAction<string | null>>
+    setResizeStickerId : React.Dispatch<SetStateAction<string | null>>
     setActiveSticker : React.Dispatch<SetStateAction<{ id: string; offsetX: number; offsetY: number } | null>>  
     setIsMoving : React.Dispatch<SetStateAction<boolean>>
+    fitMode?: "default" | "full"
+    scale?: number
    
 
 }
 export default function Canvas({containerRef, bgColor, stickers,canvasRef,
    selectedStickerId, isMoving, setIsMoving,
     activeSticker, setSelectedStickerId, setActiveSticker, 
-    setResizeStickerId,setResizeData }:CanvasProp) {
+    setResizeStickerId,setResizeData, fitMode = "default", scale = 1 }:CanvasProp) {
     const context = useContext(imageContext)
     if (!context) throw Error("No Image")
     
@@ -36,12 +38,20 @@ export default function Canvas({containerRef, bgColor, stickers,canvasRef,
     
     return <div className="">
         <div >
-          <div ref={containerRef} className="relative border border-gray-300 rounded-xl shadow-lg bg-white overflow-hidden max-w-2xl">
+          <div
+            ref={containerRef}
+            className={
+              fitMode === "full"
+                ? "relative border border-gray-300 rounded-xl shadow-lg bg-white w-fit overflow-visible"
+                : "relative border border-gray-300 rounded-xl shadow-lg bg-white overflow-hidden max-w-2xl"
+            }
+            style={fitMode === "full" ? { transform: `scale(${scale})`, transformOrigin: "top center" } : undefined}
+          >
             {data && (
               <>
                 <canvas
                   ref={canvasRef}
-                  className="w-full h-auto rounded-xl"
+                  className="w-full h-auto rounded-xl block"
                   style={{ backgroundColor: bgColor }}
                 />
                 {stickers.map((sticker) => (
