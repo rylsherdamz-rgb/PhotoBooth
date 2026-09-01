@@ -51,9 +51,8 @@ function LayoutGrid({ layout, type, previewImage }: {
 
 // ── Group layouts by type ──────────────────────────────────────────────────────
 const GROUPS: { label: string; ids: string[] }[] = [
-  { label: "Strips",    ids: ["strip-2", "strip-3", "strip-4"] },
-  { label: "Grids",     ids: ["grid-4", "grid-6", "grid-9"] },
-  { label: "Templates", ids: ["gatenews-1", "gatenews-2", "gatenews-3", "gatenews-4", "gatenews-5", "gatenews-6"] },
+  { label: "Strips", ids: ["strip-2", "strip-3", "strip-4"] },
+  { label: "Grids",  ids: ["grid-4", "grid-6", "grid-9"] },
 ];
 
 export const LayoutSelector = ({

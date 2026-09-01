@@ -73,13 +73,14 @@ function Navigation() {
             className="flex items-center gap-2.5 pl-3 group"
             aria-label="SnapCharm home"
           >
-            <div className="w-8 h-8 rounded-lg bg-[#e8356d] flex items-center justify-center shadow-md shadow-[#e8356d]/40 group-hover:scale-105 transition-transform duration-200">
-              <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-                <circle cx="8" cy="8" r="4.5" stroke="white" strokeWidth="1.6" />
-                <circle cx="8" cy="8" r="1.8" fill="white" />
-                <rect x="11.5" y="3" width="2" height="2" rx="0.5" fill="white" opacity="0.8" />
-              </svg>
-            </div>
+            <img
+              src="/logo.svg"
+              alt=""
+              aria-hidden="true"
+              width="32"
+              height="32"
+              className="w-8 h-8 rounded-lg group-hover:scale-105 transition-transform duration-200"
+            />
             <span
               className="font-bold text-lg text-slate-900 tracking-tight group-hover:text-[#e8356d] transition-colors duration-200"
               style={{ fontFamily: "Pacifico, cursive" }}

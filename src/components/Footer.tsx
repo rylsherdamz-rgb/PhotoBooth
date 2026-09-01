@@ -20,12 +20,14 @@ export default function Footer() {
           {/* Brand */}
           <div className="space-y-4 max-w-xs">
             <Link to="/" className="inline-flex items-center gap-2.5 group" aria-label="SnapCharm home">
-              <div className="w-7 h-7 rounded-lg bg-[#e8356d] flex items-center justify-center shadow-md shadow-[#e8356d]/35 group-hover:scale-105 transition-transform duration-200">
-                <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-                  <circle cx="7" cy="7" r="3.2" stroke="white" strokeWidth="1.6" />
-                  <circle cx="7" cy="7" r="1.4" fill="white" />
-                </svg>
-              </div>
+              <img
+                src="/logo.svg"
+                alt=""
+                aria-hidden="true"
+                width="28"
+                height="28"
+                className="w-7 h-7 rounded-lg group-hover:scale-105 transition-transform duration-200"
+              />
               <span
                 className="font-bold text-lg text-[#141418] group-hover:text-[#e8356d] transition-colors duration-200"
                 style={{ fontFamily: "Pacifico, cursive" }}
