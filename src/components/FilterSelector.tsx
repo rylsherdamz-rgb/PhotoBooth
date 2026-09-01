@@ -1,59 +1,88 @@
-import React, { useState } from "react";
+import React from "react";
+import { FilterPresets, type FilterStyle } from "./FilterPresets";
 
-type FilterPreset = {
-  name: string;
-  cssFilter: string;
-};
+interface FilterSelectorProps {
+  selectedFilter: string | null;
+  onFilterChange: (filter: string | null) => void;
+}
 
-const FilterPresets: FilterPreset[] = [
-  { name: "None", cssFilter: "none" },
-  { name: "Grayscale", cssFilter: "grayscale(100%)" },
-  { name: "Sepia", cssFilter: "sepia(100%)" },
-  { name: "Blur", cssFilter: "blur(2px)" },
-  { name: "Invert", cssFilter: "invert(100%)" },
-  { name: "Brightness", cssFilter: "brightness(150%)" },
-  // add more presets as needed
-];
-
-export const FilterSelector: React.FC = () => {
-  const [selectedFilter, setSelectedFilter] = useState<string>("none");
-
+export const FilterSelector: React.FC<FilterSelectorProps> = ({
+  selectedFilter,
+  onFilterChange,
+}) => {
   return (
     <>
-      {/* Custom scrollbar styles */}
       <style>
         {`
-          /* WebKit */
-          .custom-scrollbar::-webkit-scrollbar {
+          .filter-scrollbar::-webkit-scrollbar {
             height: 6px;
             background: transparent;
           }
-          .custom-scrollbar::-webkit-scrollbar-thumb {
-            background-color: #f472b6; /* pink-400 */
+          .filter-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #f472b6;
             border-radius: 3px;
           }
-          /* Firefox */
-          .custom-scrollbar {
+          .filter-scrollbar {
             scrollbar-width: thin;
             scrollbar-color: #f472b6 transparent;
           }
         `}
       </style>
 
-      <div className="mt-6 w-full max-w-xl overflow-x-auto whitespace-nowrap flex gap-4 border border-gray-300 p-2 rounded-3xl custom-scrollbar">
-        {FilterPresets.map((preset, i) => (
+      <div className="w-full">
+        <div className="flex overflow-x-auto gap-3 pb-2 filter-scrollbar">
           <button
-            key={i}
-            onClick={() => setSelectedFilter(preset.cssFilter)}
-            className={`px-4 py-2 border rounded-3xl whitespace-nowrap text-sm shrink-0 cursor-pointer hover:bg-gray-100 transition ${
-              selectedFilter === preset.cssFilter
-                ? "bg-pink-100 border-pink-400 font-semibold" 
-                : "bg-pink-300 border-gray-300"
+            onClick={() => onFilterChange(null)}
+            className={`group relative flex-shrink-0 flex flex-col items-center p-2 rounded-xl transition-all duration-200 bg-white border ${
+              selectedFilter === null
+                ? 'border-pink-500 shadow-lg scale-[1.02] ring-2 ring-pink-500/20'
+                : 'border-slate-200 hover:border-pink-300 hover:shadow-md'
             }`}
+            type="button"
           >
-            {preset.name}
+            <div className={`w-16 h-16 rounded-lg overflow-hidden transition-transform duration-200 bg-slate-100 flex items-center justify-center ${
+              selectedFilter === null ? 'ring-2 ring-pink-500' : 'group-hover:scale-105'
+            }`}>
+              <svg className="w-10 h-10 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+            </div>
+            <span className={`text-xs font-medium mt-1 transition-colors whitespace-nowrap ${
+              selectedFilter === null ? 'text-pink-600' : 'text-slate-600 group-hover:text-pink-500'
+            }`}>
+              None
+            </span>
           </button>
-        ))}
+
+          {FilterPresets.map((filterPreset: FilterStyle) => (
+            <button
+              key={filterPreset.name}
+              onClick={() => onFilterChange(filterPreset.cssFilter)}
+              className={`group relative flex-shrink-0 flex flex-col items-center p-2 rounded-xl transition-all duration-200 bg-white border ${
+                selectedFilter === filterPreset.cssFilter
+                  ? 'border-pink-500 shadow-lg scale-[1.02] ring-2 ring-pink-500/20'
+                  : 'border-slate-200 hover:border-pink-300 hover:shadow-md'
+              }`}
+              type="button"
+            >
+              <div className={`w-16 h-16 rounded-lg overflow-hidden transition-transform duration-200 ${
+                selectedFilter === filterPreset.cssFilter ? 'ring-2 ring-pink-500' : 'group-hover:scale-105'
+              }`}>
+                <img
+                  src={filterPreset.icon}
+                  alt={filterPreset.name}
+                  className="w-full h-full object-cover"
+                  style={{ filter: filterPreset.cssFilter }}
+                />
+              </div>
+              <span className={`text-xs font-medium mt-1 transition-colors whitespace-nowrap ${
+                selectedFilter === filterPreset.cssFilter ? 'text-pink-600' : 'text-slate-600 group-hover:text-pink-500'
+              }`}>
+                {filterPreset.name}
+              </span>
+            </button>
+          ))}
+        </div>
       </div>
     </>
   );

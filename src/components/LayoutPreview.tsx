@@ -1,6 +1,5 @@
 import type { LayoutInfo } from "./layoutInfos";
 
-// --- Props include type now ---
 type LayoutPreviewProps = {
   layout: number[][];
   type: LayoutInfo["type"];
@@ -18,7 +17,7 @@ export const LayoutPreview: React.FC<LayoutPreviewProps> = ({
         <img
           src={previewImage}
           alt="Layout preview"
-          className="w-20 h-28 object-cover rounded-md border border-gray-200 shadow-sm"
+          className="w-20 h-28 object-cover rounded-lg border border-slate-200 shadow-sm"
         />
       </div>
     );
@@ -28,7 +27,7 @@ export const LayoutPreview: React.FC<LayoutPreviewProps> = ({
   const colCount = layout[0]?.length || 0;
 
   if (rowCount === 0 || colCount === 0) {
-    return <div>No layout to preview</div>;
+    return <div className="w-16 h-16 bg-slate-100 rounded-lg" />;
   }
 
   const isStrip = type === "Strip";
@@ -43,15 +42,15 @@ export const LayoutPreview: React.FC<LayoutPreviewProps> = ({
             ? `repeat(1, 1fr)`
             : `repeat(${colCount}, 24px)`,
           gap: "4px",
-          border: "1px solid #ddd",
+          border: "1px solid #e4e4e7",
           padding: 8,
-          paddingBottom: 16, // half padding bottom
+          paddingBottom: 16,
           borderRadius: 6,
           backgroundColor: "#fff",
           minWidth: isStrip
             ? undefined
-            : `${colCount * 24 + (colCount - 1) * 4 + 16 - 24}px`, // reduced by 24px
-          boxShadow: "0 2px 6px rgba(0,0,0,0.1)",
+            : `${colCount * 24 + (colCount - 1) * 4 + 16 - 24}px`,
+          boxShadow: "0 2px 6px rgba(0,0,0,0.05)",
           boxSizing: "border-box",
           position: "relative",
         }}
@@ -67,33 +66,31 @@ export const LayoutPreview: React.FC<LayoutPreviewProps> = ({
                 width: 24,
                 height: 24,
                 borderRadius: 4,
-                backgroundColor: cell === 1 ? "#f9c1d9" : "transparent",
+                backgroundColor: cell === 1 ? "#fce7f3" : "transparent",
               }}
             />
           ))
         )}
-<span
-  className="scale-50"
-  style={{
-    position: "absolute",
-    bottom: 4,
-    left: 0,
-    right: 0,
-    fontSize: 7,
-    color: "#555",
-    textAlign: "center",
-    fontWeight: 500,
-    userSelect: "none",
-    pointerEvents: "none",
-    whiteSpace: "nowrap",
-    overflow: "hidden",
-    lineHeight: 1.1,
-  }}
->
-  スナップチャーム
-</span>
-
-
+        <span
+          className="scale-50"
+          style={{
+            position: "absolute",
+            bottom: 4,
+            left: 0,
+            right: 0,
+            fontSize: 7,
+            color: "#555",
+            textAlign: "center",
+            fontWeight: 500,
+            userSelect: "none",
+            pointerEvents: "none",
+            whiteSpace: "nowrap",
+            overflow: "hidden",
+            lineHeight: 1.1,
+          }}
+        >
+          スナップチャーム
+        </span>
       </div>
     </div>
   );

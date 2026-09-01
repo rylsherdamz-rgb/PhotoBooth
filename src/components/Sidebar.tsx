@@ -1,13 +1,15 @@
 import gsap from "gsap";
 import { useLayoutEffect, useRef } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
-interface Prop {
+interface SidebarProps {
+  items: { path: string; label: string }[];
   show: boolean;
-  item: string[];
+  onClose: () => void;
+  location: ReturnType<typeof useLocation>;
 }
 
-export const Sidebar = ({ show, item }: Prop) => {
+export const Sidebar = ({ items, show, onClose, location }: SidebarProps) => {
   const sidebarRef = useRef<HTMLDivElement>(null);
 
   useLayoutEffect(() => {
@@ -15,44 +17,18 @@ export const Sidebar = ({ show, item }: Prop) => {
     if (!sidebar) return;
 
     if (show) {
-
       gsap.fromTo(
         sidebar,
-        {
-          y: -100,
-          height: 0,
-          opacity: 0,
-          display: "none",
-          visibility: "hidden",
-        },
-        {
-          y: 0,
-          height: 300,
-          opacity: 1,
-          display: "flex",
-          visibility: "visible",
-          duration: 0.3,
-          ease: "power2.out",
-          z : 10
-        }
+        { y: -12, opacity: 0, scale: 0.96 },
+        { y: 0, opacity: 1, scale: 1, duration: 0.28, ease: "power3.out" }
       );
     } else {
- 
       gsap.to(sidebar, {
-        y: -100,
-        height: 0,
+        y: -12,
         opacity: 0,
-        duration: 0.3,
-        ease: "power2.in",
-        onComplete: () => {
-          if (sidebar) {
-            gsap.set(sidebar, {
-              display: "none",
-              visibility: "hidden",
-              z : 10
-            });
-          }
-        },
+        scale: 0.96,
+        duration: 0.18,
+        ease: "power3.in",
       });
     }
   }, [show]);
@@ -60,24 +36,40 @@ export const Sidebar = ({ show, item }: Prop) => {
   return (
     <div
       ref={sidebarRef}
-      id="sideBar"
-      className="w-38 z-100 flex lg:hidden h-70 bg-gray-500 border-1 border-pink-400 shadow-xs shadow-purple-300 absolute top-0 mt-25 right-0 rounded-3xl focus:outline-0"
-      style={{
-        display: "none",
-        visibility: "hidden",
-        opacity: 0,
-      }}
+      className="w-60 glass rounded-2xl border border-white/40 shadow-2xl shadow-black/10 overflow-hidden"
+      style={{ opacity: show ? 1 : 0, pointerEvents: show ? "auto" : "none" }}
     >
-      <ul className="grid justify-center m-6 mx-4 grid-cols-1 text-purple-300 w-full">
-        {item.map((it, i) => (
-          <Link to={`/${it}`}
-            key={i}
-            className="hover:text-pink-400 hover:px-5 hover:mx-2 hover:bg-gray-600 hover:rounded-3xl transition-all duration-300 ease-in-out cursor-pointer my-4 p-1"
-          >
-            {it}
-          </Link>
-        ))}
+      <ul className="p-2 space-y-0.5">
+        {items.map((item) => {
+          const isActive =
+            location.pathname === item.path ||
+            (item.path !== "/" && location.pathname.startsWith(item.path));
+          return (
+            <li key={item.path}>
+              <Link
+                to={item.path}
+                onClick={onClose}
+                className={`flex items-center px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
+                  isActive
+                    ? "bg-[#e8356d] text-white shadow-sm shadow-[#e8356d]/30"
+                    : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+                }`}
+              >
+                {item.label}
+              </Link>
+            </li>
+          );
+        })}
       </ul>
+      <div className="border-t border-slate-100 p-2">
+        <Link
+          to="/booth"
+          onClick={onClose}
+          className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#e8356d] text-white font-semibold text-sm shadow-md shadow-[#e8356d]/35 hover:bg-[#d12460] transition-all duration-200 active:scale-[0.97]"
+        >
+          Start Session
+        </Link>
+      </div>
     </div>
   );
 };

@@ -16,9 +16,7 @@ const predefinedColors = ["#ffffff", "#f8f8f8", "#ffcccc", "#ccffcc", "#ccccff"]
 const Result = () => {
   const [showPicker, setShowPicker] = useState(false);
   const [showPicker1, setShowPicker1] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState<"en" | "ja" | "ko">(
-    "ja"
-  );
+  const [selectedLanguage, setSelectedLanguage] = useState<"en" | "ja" | "ko">("ja");
 
   const captions = {
     en: "SnapCharm ",
@@ -30,10 +28,12 @@ const Result = () => {
   if (!context) throw new Error("Must be used within ImageContextProvider");
   const { data, selectedLayoutId } = context;
   if (!data) throw new Error("No image data");
+
   const location = useLocation();
   const routeLayoutId = (location.state as { layoutId?: string } | null)?.layoutId;
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const controlsRef = useRef<HTMLDivElement>(null);
   const [bgColor, setBgColor] = useState("#ffffff");
   const [fontColor, setFontColor] = useState("#333");
   const [filter] = useState("none");
@@ -56,7 +56,7 @@ const Result = () => {
     offsetX: number;
     offsetY: number;
   } | null>(null);
-  const [resizeStickerId, setResizeStickerId] = useState<string | null>(null);
+  const [_resizeStickerId, setResizeStickerId] = useState<string | null>(null);
   const [templateScale, setTemplateScale] = useState(1);
 
   const animationFrameRef = useRef<number | undefined>(undefined);
@@ -124,8 +124,8 @@ const Result = () => {
     ctx.save();
     ctx.lineWidth = 2;
     ctx.setLineDash([6, 4]);
-    ctx.strokeStyle = "rgba(255, 0, 0, 0.85)";
-    ctx.fillStyle = "rgba(255, 0, 0, 0.08)";
+    ctx.strokeStyle = "rgba(236, 72, 153, 0.85)";
+    ctx.fillStyle = "rgba(236, 72, 153, 0.08)";
     slots.forEach((slot) => {
       const x = slot.x * canvasWidth;
       const y = slot.y * canvasHeight;
@@ -137,7 +137,6 @@ const Result = () => {
     ctx.restore();
   };
 
-  const controlsRef = useRef<HTMLDivElement>(null);
   const updateTemplateScale = React.useCallback(() => {
     if (!controlsRef.current || !canvasRef.current) return;
     const controlsWidth = controlsRef.current.getBoundingClientRect().width;
@@ -565,32 +564,37 @@ const Result = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-slate-50">
       <Navigation />
-      <div className="max-w-7xl mx-auto p-4 flex flex-col lg:flex-row justify-center items-start mt-5 gap-8">
-        <div className="w-full lg:w-2/3 flex justify-center">
-          <Canvas
-            stickers={stickers}
-            bgColor={bgColor}
-            activeSticker={activeSticker}
-            isMoving={isMoving}
-            setIsMoving={setIsMoving}
-            setActiveSticker={setActiveSticker}
-            setResizeData={setResizeData}
-            setResizeStickerId={setResizeStickerId}
-            setSelectedStickerId={setSelectedStickerId}
-            selectedStickerId={selectedStickerId}
-            canvasRef={canvasRef}
-            containerRef={containerRef}
-            fitMode={isCustomTemplate ? "full" : "default"}
-            scale={isCustomTemplate ? templateScale : 1}
-          />
+      <div className="max-w-[1400px] mx-auto p-4 lg:p-6">
+        <div className="mb-6">
+          <h1 className="text-2xl lg:text-3xl font-bold text-slate-950">Customize</h1>
+          <p className="text-slate-500 mt-1">Layout: <span className="font-medium text-slate-700 capitalize">{selectedLayout.description}</span></p>
         </div>
 
-        <div ref={controlsRef} className="w-full lg:w-1/3 space-y-6 bg-white p-6 rounded-xl shadow-lg">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">Customize Your Photo</h2>
-          <Caption selectedLanguage={selectedLanguage} setSelectedLanguage={setSelectedLanguage} />
-          <div>
+        <div ref={controlsRef} className="flex flex-col lg:flex-row justify-center items-start gap-6 lg:gap-8">
+          <div className="w-full lg:w-2/3 flex justify-center">
+            <Canvas
+              stickers={stickers}
+              bgColor={bgColor}
+              activeSticker={activeSticker}
+              isMoving={isMoving}
+              setIsMoving={setIsMoving}
+              setActiveSticker={setActiveSticker}
+              setResizeData={setResizeData}
+              setResizeStickerId={setResizeStickerId}
+              setSelectedStickerId={setSelectedStickerId}
+              selectedStickerId={selectedStickerId}
+              canvasRef={canvasRef}
+              containerRef={containerRef}
+              fitMode={isCustomTemplate ? "full" : "default"}
+              scale={isCustomTemplate ? templateScale : 1}
+            />
+          </div>
+
+          <div className="w-full lg:w-1/3 space-y-6 bg-white/80 backdrop-blur-sm p-6 rounded-2xl border border-slate-200 shadow-xl">
+            <h2 className="text-xl font-bold text-slate-900">Customize Your Photo</h2>
+            <Caption selectedLanguage={selectedLanguage} setSelectedLanguage={setSelectedLanguage} />
             <BackgroundColorSelector
               setBgColor={setBgColor}
               setShowPicker1={setShowPicker1}
@@ -602,17 +606,17 @@ const Result = () => {
               showPicker={showPicker}
               setShowPicker={setShowPicker}
             />
+            <StickerUpload
+              handleStickerUpload={(e) => {
+                handleStickerUpload(e, setSelectedStickerId, setResizeStickerId, setStickers);
+              }}
+              setSelectedStickerId={setSelectedStickerId}
+              selectedStickerId={selectedStickerId}
+              setStickers={setStickers}
+              stickers={stickers}
+            />
+            <ActionButton handleDownload={handleDownload} />
           </div>
-          <StickerUpload
-            handleStickerUpload={(e) => {
-              handleStickerUpload(e, setSelectedStickerId, setResizeStickerId, setStickers);
-            }}
-            setSelectedStickerId={setSelectedStickerId}
-            selectedStickerId={selectedStickerId}
-            setStickers={setStickers}
-            stickers={stickers}
-          />
-          <ActionButton handleDownload={handleDownload} />
         </div>
       </div>
     </div>

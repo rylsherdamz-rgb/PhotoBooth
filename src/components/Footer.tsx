@@ -1,82 +1,92 @@
 import { Link } from "react-router-dom";
-import {socials}from "../constants/social"
-import {
-  FaGithub,
-  FaFacebook,
-  FaTwitter,
-  FaCamera,
-  FaLinkedin
-} from "react-icons/fa";
+import { socials } from "../constants/social";
+import { FaGithub, FaFacebook, FaTwitter, FaLinkedin } from "react-icons/fa";
+
+const SOCIAL_ICONS = [
+  { icon: FaGithub,   index: 0, label: "GitHub"   },
+  { icon: FaFacebook, index: 3, label: "Facebook"  },
+  { icon: FaTwitter,  index: 2, label: "Twitter"   },
+  { icon: FaLinkedin, index: 1, label: "LinkedIn"  },
+];
 
 export default function Footer() {
   return (
-    <footer className="relative">
-      {/* Soft fade instead of divider */}
-      <div className="h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent mb-16" />
+    <footer className="bg-[#f8f8f9] border-t border-[#e2e2e8]">
+      <div className="max-w-[1400px] mx-auto px-6 py-14">
 
-      <div className="max-w-7xl mx-auto px-6 pb-20">
-        <div className="grid md:grid-cols-3 gap-12 items-start">
-          {/* BRAND */}
-          <div className="space-y-4">
-            <div className="flex items-center gap-2 text-xl font-bold text-slate-900">
-              <FaCamera className="text-pink-500" />
-              SnapCharm
-            </div>
-            <p className="text-slate-600 text-sm max-w-sm">
-              SnapCharm is a browser-based online photobooth designed
-              to capture cute, aesthetic moments — instantly and effortlessly.
+        {/* Top row */}
+        <div className="grid md:grid-cols-[1fr_auto_auto] gap-10 items-start">
+
+          {/* Brand */}
+          <div className="space-y-4 max-w-xs">
+            <Link to="/" className="inline-flex items-center gap-2.5 group" aria-label="SnapCharm home">
+              <div className="w-7 h-7 rounded-lg bg-[#e8356d] flex items-center justify-center shadow-md shadow-[#e8356d]/35 group-hover:scale-105 transition-transform duration-200">
+                <svg width="13" height="13" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                  <circle cx="7" cy="7" r="3.2" stroke="white" strokeWidth="1.6" />
+                  <circle cx="7" cy="7" r="1.4" fill="white" />
+                </svg>
+              </div>
+              <span
+                className="font-bold text-lg text-[#141418] group-hover:text-[#e8356d] transition-colors duration-200"
+                style={{ fontFamily: "Pacifico, cursive" }}
+              >
+                SnapCharm
+              </span>
+            </Link>
+            <p className="text-slate-500 text-sm leading-relaxed">
+              Browser-based photobooth for capturing cute, aesthetic moments — instantly.
             </p>
           </div>
 
-          {/* LINKS */}
-          <div className="grid grid-cols-2 gap-6">
-            <div className="space-y-3">
-              <h4 className="font-semibold text-slate-900">
-                Product
-              </h4>
-              <ul className="space-y-2 text-sm text-slate-600">
-                <li><Link to="/booth" className="hover:text-pink-500">Photo Booth</Link></li>
-                <li><Link to="/about" className="hover:text-pink-500">About</Link></li>
-                <li><Link to="/contact" className="hover:text-pink-500">Contact</Link></li>
-              </ul>
-            </div>
-
-            <div className="space-y-3">
-              <h4 className="font-semibold text-slate-900">
-                Legal
-              </h4>
-              <ul className="space-y-2 text-sm text-slate-600">
-                <li><Link to="/privacy" className="hover:text-pink-500">Privacy Policy</Link></li>
-                <li><Link to="/terms" className="hover:text-pink-500">Terms of Use</Link></li>
-              </ul>
-            </div>
+          {/* Product links */}
+          <div className="space-y-3">
+            <h4 className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Product</h4>
+            <ul className="space-y-2.5 text-sm">
+              {[
+                { to: "/booth",   label: "Photo Booth" },
+                { to: "/photos",  label: "Gallery"     },
+                { to: "/about",   label: "About"       },
+                { to: "/contact", label: "Contact"     },
+                { to: "/policy",  label: "Privacy"     },
+              ].map(({ to, label }) => (
+                <li key={to}>
+                  <Link to={to} className="text-slate-500 hover:text-[#e8356d] transition-colors duration-150">
+                    {label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
           </div>
 
-          {/* SOCIAL */}
-          <div className="space-y-4">
-            <h4 className="font-semibold text-slate-900">
-              Follow Us
-            </h4>
-            <div className="flex gap-4 text-xl text-slate-500">
-              <Link to={`${socials[0].url}`} className="hover:text-pink-500 transition">
-                <FaGithub />
-              </Link>
-              <Link to={`${socials[3].url}`} className="hover:text-pink-500 transition">
-                <FaFacebook />
-              </Link>
-              <Link  to={`${socials[2].url}`}  className="hover:text-pink-500 transition">
-                <FaTwitter />
-              </Link>
-              <Link  to={`${socials[1].url}`}  className="hover:text-pink-500 transition">
-                <FaLinkedin />
-              </Link>
+          {/* Social icons */}
+          <div className="space-y-3">
+            <h4 className="text-xs font-semibold text-slate-400 uppercase tracking-wider">Follow</h4>
+            <div className="flex flex-col gap-2.5">
+              {SOCIAL_ICONS.map(({ icon: Icon, index, label }) => (
+                <a
+                  key={label}
+                  href={socials[index]?.url ?? "#"}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label={label}
+                  className="inline-flex items-center gap-2.5 text-slate-500 hover:text-[#e8356d] transition-colors duration-150 text-sm"
+                >
+                  <Icon className="w-4 h-4" />
+                  {label}
+                </a>
+              ))}
             </div>
           </div>
         </div>
 
-        {/* BOTTOM */}
-        <div className="mt-16 text-center text-sm text-slate-500">
-          © {new Date().getFullYear()} SnapCharm. All rights reserved.
+        {/* Bottom bar */}
+        <div className="mt-12 pt-6 border-t border-[#e2e2e8] flex flex-col sm:flex-row items-center justify-between gap-3">
+          <p className="text-xs text-slate-400">
+            &copy; {new Date().getFullYear()} SnapCharm. All rights reserved.
+          </p>
+          <p className="text-xs text-slate-400">
+            Made with care in the Philippines
+          </p>
         </div>
       </div>
     </footer>
