@@ -1,32 +1,32 @@
 interface CaptionProps {
-  selectedLanguage: 'en' | 'ja' | 'ko';
-  setSelectedLanguage: (selectedLanguage: 'en' | 'ja' | 'ko') => void;
+  selectedLanguage: "en" | "ja" | "ko";
+  setSelectedLanguage: (lang: "en" | "ja" | "ko") => void;
 }
 
-export default function Caption({ selectedLanguage, setSelectedLanguage }: CaptionProps) {
-  const languages = [
-    { code: 'en' as const, label: 'English', flag: '🇺🇸' },
-    { code: 'ja' as const, label: '日本語', flag: '🇯🇵' },
-    { code: 'ko' as const, label: '한국어', flag: '🇰🇷' },
-  ];
+const LANGUAGES = [
+  { code: "en" as const, label: "EN", full: "English"  },
+  { code: "ja" as const, label: "JP", full: "日本語" },
+  { code: "ko" as const, label: "KR", full: "한국어" },
+];
 
+export default function Caption({ selectedLanguage, setSelectedLanguage }: CaptionProps) {
   return (
-    <div className="bg-white/50 backdrop-blur-sm p-4 rounded-xl border border-slate-200">
-      <h4 className="font-semibold text-slate-900 mb-3">Caption Language</h4>
+    <div>
+      <p className="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2.5">Caption Language</p>
       <div className="flex gap-2">
-        {languages.map((lang) => (
+        {LANGUAGES.map((lang) => (
           <button
             key={lang.code}
             onClick={() => setSelectedLanguage(lang.code)}
-            className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
-              selectedLanguage === lang.code
-                ? 'bg-pink-500 text-white shadow-lg shadow-pink-500/30'
-                : 'bg-white text-slate-700 hover:bg-slate-50 border border-slate-200'
-            }`}
             type="button"
+            className={`flex-1 flex flex-col items-center gap-0.5 py-2.5 rounded-xl text-xs font-semibold transition-all duration-150 border ${
+              selectedLanguage === lang.code
+                ? "bg-[#e8356d] text-white border-[#e8356d] shadow-md shadow-[#e8356d]/25"
+                : "bg-[#f8f8f9] text-slate-500 border-[#e2e2e8] hover:border-slate-300 hover:text-slate-700"
+            }`}
           >
-            <span>{lang.flag}</span>
-            <span>{lang.label}</span>
+            <span className="text-base leading-none">{lang.label}</span>
+            <span className={`text-[10px] ${selectedLanguage === lang.code ? "text-white/70" : "text-slate-400"}`}>{lang.full}</span>
           </button>
         ))}
       </div>

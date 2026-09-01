@@ -564,16 +564,23 @@ const Result = () => {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-[100dvh] bg-[#f8f8f9]">
       <Navigation />
-      <div className="max-w-[1400px] mx-auto p-4 lg:p-6">
-        <div className="mb-6">
-          <h1 className="text-2xl lg:text-3xl font-bold text-slate-950">Customize</h1>
-          <p className="text-slate-500 mt-1">Layout: <span className="font-medium text-slate-700 capitalize">{selectedLayout.description}</span></p>
+
+      <div className="max-w-[1400px] mx-auto px-4 py-6 lg:py-8">
+
+        {/* Page header */}
+        <div className="mb-6 flex items-center justify-between">
+          <div>
+            <h1 className="text-xl lg:text-2xl font-bold text-[#141418] tracking-tight">Customize Collage</h1>
+            <p className="text-slate-400 text-sm mt-0.5 capitalize">{selectedLayout.description}</p>
+          </div>
         </div>
 
-        <div ref={controlsRef} className="flex flex-col lg:flex-row justify-center items-start gap-6 lg:gap-8">
-          <div className="w-full lg:w-2/3 flex justify-center">
+        <div ref={controlsRef} className="flex flex-col lg:flex-row justify-center items-start gap-5 lg:gap-6">
+
+          {/* Canvas area */}
+          <div className="w-full lg:flex-1 flex justify-center">
             <Canvas
               stickers={stickers}
               bgColor={bgColor}
@@ -592,31 +599,54 @@ const Result = () => {
             />
           </div>
 
-          <div className="w-full lg:w-1/3 space-y-6 bg-white/80 backdrop-blur-sm p-6 rounded-2xl border border-slate-200 shadow-xl">
-            <h2 className="text-xl font-bold text-slate-900">Customize Your Photo</h2>
-            <Caption selectedLanguage={selectedLanguage} setSelectedLanguage={setSelectedLanguage} />
-            <BackgroundColorSelector
-              setBgColor={setBgColor}
-              setShowPicker1={setShowPicker1}
-              predefinedColors={predefinedColors}
-              showPicker1={showPicker1}
-              bgColor={bgColor}
-              fontColor={fontColor}
-              setFontColor={setFontColor}
-              showPicker={showPicker}
-              setShowPicker={setShowPicker}
-            />
-            <StickerUpload
-              handleStickerUpload={(e) => {
-                handleStickerUpload(e, setSelectedStickerId, setResizeStickerId, setStickers);
-              }}
-              setSelectedStickerId={setSelectedStickerId}
-              selectedStickerId={selectedStickerId}
-              setStickers={setStickers}
-              stickers={stickers}
-            />
-            <ActionButton handleDownload={handleDownload} />
+          {/* Controls panel */}
+          <div className="w-full lg:w-[340px] lg:sticky lg:top-24 self-start">
+            <div className="bg-white rounded-2xl border border-[#e2e2e8] shadow-sm overflow-hidden">
+
+              {/* Panel header */}
+              <div className="px-5 py-4 border-b border-[#e2e2e8]">
+                <h2 className="text-base font-bold text-[#141418]">Customize</h2>
+                <p className="text-xs text-slate-400 mt-0.5">Edit caption, background, and stickers</p>
+              </div>
+
+              {/* Scrollable controls body */}
+              <div className="p-5 space-y-5 max-h-[calc(100dvh-220px)] overflow-y-auto" style={{ scrollbarWidth: "thin" }}>
+                <Caption selectedLanguage={selectedLanguage} setSelectedLanguage={setSelectedLanguage} />
+
+                <div className="w-full h-px bg-[#f1f1f4]" />
+
+                <BackgroundColorSelector
+                  setBgColor={setBgColor}
+                  setShowPicker1={setShowPicker1}
+                  predefinedColors={predefinedColors}
+                  showPicker1={showPicker1}
+                  bgColor={bgColor}
+                  fontColor={fontColor}
+                  setFontColor={setFontColor}
+                  showPicker={showPicker}
+                  setShowPicker={setShowPicker}
+                />
+
+                <div className="w-full h-px bg-[#f1f1f4]" />
+
+                <StickerUpload
+                  handleStickerUpload={(e) => {
+                    handleStickerUpload(e, setSelectedStickerId, setResizeStickerId, setStickers);
+                  }}
+                  setSelectedStickerId={setSelectedStickerId}
+                  selectedStickerId={selectedStickerId}
+                  setStickers={setStickers}
+                  stickers={stickers}
+                />
+              </div>
+
+              {/* Download footer — always visible */}
+              <div className="px-5 py-4 border-t border-[#e2e2e8] bg-[#f8f8f9]">
+                <ActionButton handleDownload={handleDownload} />
+              </div>
+            </div>
           </div>
+
         </div>
       </div>
     </div>
